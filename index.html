@@ -1,0 +1,820 @@
+      <!-- from https://getbootstrap.com/docs/5.3/examples/album/ -->
+      <!doctype html>
+      <html lang="en" data-bs-theme="auto">
+        <head>
+          <!-- <script src="/docs/5.3/assets/js/color-modes.js"></script> -->
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <meta name="description" content="">
+          <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+          <meta name="generator" content="Hugo 0.118.2">
+          <title>DanceMosaic: High-Fidelity Dance Generation with Multimodal Editability</title>
+          <!-- <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/album/"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"><link href="/docs/5.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"><link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180"><link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png"><link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png"><link rel="manifest" href="/docs/5.3/assets/img/favicons/manifest.json"><link rel="mask-icon" href="/docs/5.3/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9"><link rel="icon" href="/docs/5.3/assets/img/favicons/favicon.ico"> -->
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+          <meta name="theme-color" content="#712cf9">
+          <style>
+            .bd-placeholder-img {
+              font-size: 1.125rem;
+              text-anchor: middle;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              user-select: none;
+            }
+
+            @media (min-width: 768px) {
+              .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+              }
+            }
+
+            .b-example-divider {
+              width: 100%;
+              height: 3rem;
+              background-color: rgba(0, 0, 0, .1);
+              border: solid rgba(0, 0, 0, .15);
+              border-width: 1px 0;
+              box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+            }
+
+            .b-example-vr {
+              flex-shrink: 0;
+              width: 1.5rem;
+              height: 100vh;
+            }
+
+            .bi {
+              vertical-align: -.125em;
+              fill: currentColor;
+            }
+
+            .nav-scroller {
+              position: relative;
+              z-index: 2;
+              height: 2.75rem;
+              overflow-y: hidden;
+            }
+
+            .nav-scroller .nav {
+              display: flex;
+              flex-wrap: nowrap;
+              padding-bottom: 1rem;
+              margin-top: -1px;
+              overflow-x: auto;
+              text-align: center;
+              white-space: nowrap;
+              -webkit-overflow-scrolling: touch;
+            }
+
+            .btn-bd-primary {
+              --bd-violet-bg: #712cf9;
+              --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+              --bs-btn-font-weight: 600;
+              --bs-btn-color: var(--bs-white);
+              --bs-btn-bg: var(--bd-violet-bg);
+              --bs-btn-border-color: var(--bd-violet-bg);
+              --bs-btn-hover-color: var(--bs-white);
+              --bs-btn-hover-bg: #6528e0;
+              --bs-btn-hover-border-color: #6528e0;
+              --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+              --bs-btn-active-color: var(--bs-btn-hover-color);
+              --bs-btn-active-bg: #5a23c8;
+              --bs-btn-active-border-color: #5a23c8;
+            }
+
+            .bd-mode-toggle {
+              z-index: 1500;
+            }
+
+            .bd-mode-toggle .dropdown-menu .active .bi {
+              display: block !important;
+            }
+
+            .masthead {
+              height: 100vh;
+              min-height: 500px;
+              background-image: url('./website/head.jpg');
+              background-size: cover;
+              background-position: center;
+              background-repeat: no-repeat;
+            }
+
+            .btn span.icon {
+              background: url(assets/arxiv-logomark-small.svg) no-repeat;
+              float: left;
+              width: 10px;
+              height: 40px;
+            }
+
+            .arxiv-icon {
+              background-image: url(assets/arxiv-logomark-small.svg);
+              background-size: cover;
+              display: inline-block;
+              background-position: center center;
+              height: 24px;
+              width: 24px;
+            }
+
+            .mmm-card {
+              border-color: #ff9090;
+              border-style: solid;
+              border-width: 2px;
+            }
+
+            .custom-video-size {
+              width: 100%;
+              /* Sets the width of the video to 100% of its container */
+              width: 100%;
+              /* Sets the width of the video to 100% of its container */
+            }
+
+            .card-body {
+              min-height: 40px;
+              /* Set a minimum height */
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+            }
+
+            body {
+              background-color: #ffffff;
+              /* Or any other color code */
+            }
+
+            .timeline-container {
+              width: 100%;
+              margin: 20px;
+              padding: 10px;
+              position: relative;
+            }
+
+            .timeline {
+              display: flex;
+              border: 2px solid black;
+              border-radius: 8px;
+              overflow: hidden;
+              position: relative;
+              margin-bottom: 10px;
+              width: 100%;
+            }
+
+            .segment {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              color: black;
+              font-size: 16px;
+              padding: 5px;
+              border-right: 1px solid black;
+              flex: 1;
+              height: 60px;
+              /* Adjust this value to your desired height */
+            }
+
+            .inactive {
+              background-color: rgb(255, 255, 255);
+            }
+
+            .active {
+              background-color: #ffe2e2 !important;
+              /* Red active segment */
+              color: black;
+            }
+
+            .motion-inactive {
+              background-color: #ababab;
+              /* Light red or any other color to indicate inactive with motion */
+              color: black;
+              /* Adjust text color if necessary */
+            }
+
+            .moving-line {
+              position: absolute;
+              width: 2px;
+              height: 80%;
+              background-color: black;
+              top: 0;
+              left: 0;
+              top: 25px;
+              /* Adjust this value to move the line down */
+            }
+
+            video {
+              width: 100%;
+              max-width: 1000px;
+              height: auto;
+              /* height: 450px; */
+              /* margin: 20px auto; */
+              display: block;
+            }
+
+            /* Frame labels below the timelines */
+            .frame-labels {
+              position: relative;
+              width: 100%;
+              height: 20px;
+              margin-top: 5px;
+              display: flex;
+              justify-content: space-between;
+            }
+
+            .frame-label {
+              font-weight: bold;
+              font-size: 14px;
+              position: relative;
+            }
+
+            .custom-video-container {
+              width: 100%;
+              /* Full width of the parent container */
+            }
+
+            .custom-video {
+              width: 100%;
+              max-width: 1000px;
+              /* Set a max-width to control video width */
+            }
+            .album {
+              /* padding-bottom: 30px; */
+              margin-bottom: 40px;
+              /* background-color: #eee; */
+            }
+            .margin100 {
+              margin-left:100px;
+              margin-right:100px;
+            }
+          </style>
+        </head>
+        <body>
+          <main>
+			<section class="py-2 text-center container">
+				<div class="row py-lg-5">
+					<div class="col-lg-8 col-md-8 mx-auto">
+						<h1>DanceMosaic: High-Fidelity Dance Generation with Multimodal Editability</h1>
+						<h5>Anonymous</h5>
+					</div>
+				</div>
+				<section class="hero-image d-flex align-items-center justify-content-center" style="background-image: url('./assets/Hero_Image.png'); height: 50vh; background-size: contain; background-repeat: no-repeat; background-position: center;"> </section>
+			</section>
+			<section id="about" class="py-4 text-center container">
+					<div class="col-lg-12 col-md-8 mx-auto">
+						<p class="lead"> Recent advances in dance generation have enabled automatic synthesis of 3D dance motions. However, existing methods still struggle to produce high-fidelity dance sequences that simultaneously deliver exceptional realism, precise dance–music synchronization, high motion diversity, and physical plausibility. Moreover, existing methods lack the flexibility to edit dance sequences according to diverse guidance signals, such as musical prompts, pose constraints, action labels, and genre descriptions, significantly restricting their creative utility and adaptability. Unlike the existing approaches, DanceMosaic enables fast and high-fidelity dance generation, while allowing multimodal motion editing. Speciically, we propose a multimodal masked motion model that fuses the text-to-motion model with music and pose adapters to learn probabilistic mapping from diverse guidance signals to high-quality dance motion sequences via progressive generative masking training.  To further enhance the motion generation quality, we propose multimodal classifer-free guidance and inference-time optimization mechanism that further enforce the alignment between the generated motions and the multimodal guidance. Extensive experiments demonstrate that our method outperforms state-of-the-art approaches in motion fidelity, motion, and inference efficiency. </div>
+			</section>
+      <!-- <section class="py-5 text-center container">
+        <div class="col-lg-8 col-md-8 mx-auto">
+          <h2> Influence of Music Guidance (w<sub>A</sub>) </h2>
+        </div>
+    </section>
+    <div class="album text-center bg-body-tertiary">
+      <div class="container-fluid">
+        <div class="row row-cols-1">
+          <div class="col mx-auto">
+            <div class="card h-100 shadow-sm mx-auto" style="width: fit-content;">
+              <video id="text-to-motion_t2mgpt" autoplay controls muted loop playsinline class="mx-auto" height="100%">
+                <source src="./assets/edit/output_w_audio.mkv" type="video/mp4">
+              </video>
+              <div class="card-body">
+                <p class="card-text">
+                  This experiment shows the impact of Music Guidance Scale on Generated Dance Motion. <br/>
+                  It is visible that w<sub>A</sub> effectivly aligns motion with music. <br/>
+                  The video on the left is while using w<sub>A</sub> = 1, and videos on the right gradually increase w<sub>A</sub> from 0 to 0.5<br/>
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-body-secondary"></small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+      <section class="py-5 text-center container">
+        <div class="col-lg-8 col-md-8 mx-auto">
+          <h2> Text-Controlled Dance Editing </h2>
+        </div>
+    </section>
+    <div class="album text-center margin100 bg-body-tertiary">
+      <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              <video id="text-to-motion_t2mgpt" autoplay controls muted loop playsinline height="100%">
+                <source src="./assets/edit/157_1960_2jumpingJacks.mp4" type="video/mp4">
+              </video>
+              <div class="card-body">
+                <p class="card-text">In-Between Dance Editing with Instruction: "A person does 3 jumping jacks" from 3-5 seconds</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-body-secondary"></small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              <video id="text-to-motion_t2mgpt" autoplay controls muted loop playsinline height="100%">
+                <source src="./assets/edit/166_flapChicken.mp4" type="video/mp4">
+              </video>
+              <div class="card-body">
+                <p class="card-text">In-Between Dance Editing with Instruction: "A person flaps his elbows like chicken" from 5-7 seconds</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-body-secondary"></small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              <video id="text-to-motion_t2mgpt" autoplay controls muted loop playsinline height="100%">
+                <source src="./assets/edit/087_245_walksInCircle.mp4" type="video/mp4">
+              </video>
+              <div class="card-body">
+                <p class="card-text">In-Between Dance Editing with Instruction: "A person walks in circle" from 4-6 seconds</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-body-secondary"></small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="album text-center margin100 bg-body-tertiary">
+      <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              <video id="text-to-motion_t2mgpt" autoplay controls muted loop playsinline height="100%">
+                <source src="./assets/edit/Dancing_With_hand_high_163_196_w_audio.mkv" type="video/mp4">
+              </video>
+              <div class="card-body">
+                <p class="card-text">Complete Dance with Text Instruction: "A person dances keeping hand high in air."</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-body-secondary"></small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              <video id="text-to-motion_t2mgpt" autoplay controls muted loop playsinline height="100%">
+                <source src="./assets/edit/166_343_jump_inbetween_w_audio.mkv" type="video/mp4">
+              </video>
+              <div class="card-body">
+                <p class="card-text">In-Between Dance Editing with Instruction: "A person jumps" from 3-5 seconds</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-body-secondary"></small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              <video id="text-to-motion_t2mgpt" autoplay controls muted loop playsinline height="100%">
+                <source src="./assets/edit/dance_with_spin_082_2793_single_color_w_audio.mkv" type="video/mp4">
+              </video>
+              <div class="card-body">
+                <p class="card-text">In-Between Dance Editing with Instruction: "A person spin at a place" from 3-5 seconds</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-body-secondary"></small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="album text-center margin100 bg-body-tertiary">
+      <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 justify-content-center">
+          <!-- <div class="col">
+            <div class="card h-100 shadow-sm">
+              <video id="text-to-motion_t2mgpt" autoplay controls muted loop playsinline height="100%">
+                <source src="./assets/edit/020_3234_walks_front.mp4" type="video/mp4">
+              </video>
+              <div class="card-body">
+                <p class="card-text">In-Between Dance Editing with Instruction: "A person walks front" 0-3 seconds."</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-body-secondary"></small>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              <video id="text-to-motion_t2mgpt" autoplay controls muted loop playsinline height="100%">
+                <source src="./assets/edit/019_735_boxing.mp4" type="video/mp4">
+              </video>
+              <div class="card-body">
+                <p class="card-text">In-Between Dance Editing with Instruction: "A person is boxing" from 1-4 seconds</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-body-secondary"></small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              <video id="text-to-motion_t2mgpt" autoplay controls muted loop playsinline height="100%">
+                <source src="./assets/edit/126_1421_claps.mp4" type="video/mp4">
+              </video>
+              <div class="card-body">
+                <p class="card-text">In-Between Dance Editing with Instruction: "A person claps" from 5-6 seconds</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-body-secondary"></small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+          <div class="col-lg-8 col-md-8 mx-auto">
+            <h2> Additional Applications
+            </h2>
+          </div>
+        </div>
+      </section>
+      <div class="album bg-body-tertiary">
+        <div class="container">
+          <div class="row row-cols-1 row-cols-sm-2 g-3">
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <video id="text-to-motion_t2mgpt" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/edit/014_196_walkout_w_music.mkv" type="video/mp4">
+                </video>
+                <div class="card-body">
+                  <p class="card-text text-center">
+                    Action-based Outpainting:<b> Walk in and walk out of the frame</b><br/> 
+                  </p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-body-secondary"></small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <video id="text-to-motion_t2mgpt" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/edit/164_539-014_196-Outpainted_w_music.mkv" type="video/mp4">
+                </video>
+                <div class="card-body">
+                  <p class="card-text text-center"> Genre-based Outpainting:<b> Street Hiphop to Mix Korean to again HipHop</b></p>
+                  <!-- <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-body-secondary">This is one of the important application as the mask transformer model restricts model to generate motions longer than 10 seconds in a single forward pass.</small>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row row-cols-1 row-cols-sm-2 g-3">
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <video id="text-to-motion_t2mgpt" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/edit/lock_joints_031_343_w_audio.mkv" type="video/mp4">
+                </video>
+                <div class="card-body">
+                  <p class="card-text text-center">
+                    <b>Lower Body Constrained Dance Generation</b> <br/>
+                  </p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-body-secondary"></small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <video id="text-to-motion_t2mgpt" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/edit/062_392_UpperConstrainted_w_music.mkv" type="video/mp4">
+                </video>
+                <div class="card-body">
+                  <p class="card-text text-center">
+                    <b>Upper Body Constrained Dance Generation</b> <br/>
+                  </p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-body-secondary"></small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+          <div class="row row-cols-1 row-cols-sm-2 g-3">
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <video id="text-to-motion_t2mgpt" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/edit/longForm_w_audio_trim.mkv" type="video/mp4">
+                </video>
+                <div class="card-body">
+                  <p class="card-text"> <b>Long Dance Generation </b></p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-body-secondary">This is one of the important application as the mask transformer model restricts model to generate motions longer than 10 seconds in a single forward pass.</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <video id="text-to-motion_t2mgpt" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/edit/long_form_trimmed.mp4" type="video/mp4">
+                </video>
+                <div class="card-body">
+                  <p class="card-text"> <b>Long Dance Generation </b></p>
+                  <!-- <div class="d-flex justify-content-between align-items-center"> -->
+                    <!-- <small class="text-body-secondary">This is one of the important application as the mask transformer model restricts model to generate motions longer than 10 seconds in a single forward pass.</small> -->
+                  <!-- </div> -->
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      
+      
+    </section>
+    <section class="py-5 text-center container">
+      <div class="col-lg-8 col-md-8 mx-auto">
+        <h2> DanceMosaic Dance Diversity </h2>
+      </div>
+      <div class="album margin100">
+        <div class="container">
+          <h6 style="text-align: left; padding-top: 2%;">Same Music and Different Genres -> Shenyun Music</h6>
+          <div class="row row-cols-3 row-cols-sm-3 row-cols-md-3 g-3">
+  
+            <div class="col">
+              <div class="card">
+                <video id="text-to-motion_mmm" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/ours/motion_diversity/031_343_StreetBreak_ShenyunMusic_w_music.mkv" type="video/mp4">
+                </video>
+                <div class="card-body  mmm-card">
+                  <p class="card-text">
+                    <strong>Break Dance</strong>
+                  </p>
+                </div>
+              </div>
+            </div>                   
+            
+            <div class="col">
+              <div class="card">
+                <video id="text-to-motion_mmm" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/ours/motion_diversity/031_343_folkMiao_ShenyunMusic_w_music.mkv" type="video/mp4">
+                </video>
+                <div class="card-body  mmm-card">
+                  <p class="card-text">
+                    <strong>Folk Miao</strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card">
+                <video id="text-to-motion_mmm" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/ours/motion_diversity/031_343_StreetHipHop_ShenyunMusic_w_music.mkv" type="video/mp4">
+                </video>
+                <div class="card-body  mmm-card">
+                  <p class="card-text">
+                    <strong>Street Hiphop</strong>
+                  </p>
+                </div>
+              </div>
+            </div>      
+          </div>
+        </div>
+      </div>
+      <!-- <div class="album margin100">
+        <div class="container">
+         
+          <h6 style="text-align: left;padding-top: 1em;">Same Music and Genre -> Folk Miao Music</h6>
+          <div class="row row-cols-3 row-cols-sm-3 row-cols-md-3 g-3">
+  
+            <div class="col">
+              <div class="card">
+                <video id="text-to-motion_mmm" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/ours/motion_diversity/135_1862_Miaov1_wm.mkv" type="video/mp4">
+                </video>
+              </div>
+            </div>                   
+            
+            <div class="col">
+              <div class="card">
+                <video id="text-to-motion_mmm" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/ours/motion_diversity/135_1862_Miaov2_wm.mkv" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card">
+                <video id="text-to-motion_mmm" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/ours/motion_diversity/135_1862_Miaov3_wm.mkv" type="video/mp4">
+                </video>
+              </div>
+            </div>      
+          </div>
+        </div>
+      </div> -->
+    </section>
+    <section class="py-5 text-center container">
+      <div class="col-lg-8 col-md-8 mx-auto">
+        <h2> DanceMosaic Genre-Specified Dance Generation 
+        </h2>
+      </div>
+      <div class="album margin100">
+        <div class="container">
+          <div class="row row-cols-3 row-cols-sm-3 row-cols-md-3 g-3">
+            <div class="col">
+              <div class="card">
+                <video id="text-to-motion_mmm" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/ours/054_98_street_popping.mp4" type="video/mp4">
+                </video>
+                <div class="card-body  mmm-card">
+                  <p class="card-text">
+                    <strong>Street Popping</strong>
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>                   
+            
+            <div class="col">
+              <div class="card">
+                <video id="text-to-motion_mmm" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/ours/031_343_ClassicShenyun.mp4" type="video/mp4">
+                </video>
+                <div class="card-body  mmm-card">
+                  <p class="card-text">
+                    <strong>Classic Shenyun</strong>
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card">
+                <video id="text-to-motion_mmm" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/ours/096_392_street_hiphop_fuct.mp4" type="video/mp4">
+                </video>
+                <div class="card-body  mmm-card">
+                  <p class="card-text">
+                    <strong>Street Hiphop</strong>
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>      
+          </div>
+        </div>
+      </div>
+
+      <div class="album margin100">
+        <div class="container">
+          <div class="row row-cols-3 row-cols-sm-3 row-cols-md-3 g-3">
+            <div class="col">
+              <div class="card">
+                <video id="text-to-motion_mmm" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/ours/gKR_sFM_cAll_d28_mKR4_ch05_98.mp4" type="video/mp4">
+                </video>
+                <div class="card-body  mmm-card">
+                  <p class="card-text">
+                    <strong>Krump Dance</strong>
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card">
+                <video id="text-to-motion_mmm" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/ours/077_686_folk_miao_fuct.mp4" type="video/mp4">
+                </video>
+                <div class="card-body  mmm-card">
+                  <p class="card-text">
+                    <strong>Folk Miao</strong>
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <video id="text-to-motion_mmm" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/ours/gBR_sFM_cAll_d05_mBR4_ch11_49.mp4" type="video/mp4">
+                </video>
+                <div class="card-body  mmm-card">
+                  <p class="card-text">
+                    <strong>Break Dance</strong>
+                  </p>
+                </div>
+              </div>
+            </div>             
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="album margin100">
+        <div class="container align-items-center">
+          <div class="row row-cols-3 row-cols-sm-3 row-cols-md-3 g-3">
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <video id="text-to-motion_mmm" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/ours/124_2450_street_jazz_fuct_cropped.mp4" type="video/mp4">
+                </video>
+                <div class="card-body  mmm-card">
+                  <p class="card-text">
+                    <strong>Street Jazz</strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card">
+                <video id="text-to-motion_mmm" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/ours/gLH_sFM_cAll_d16_mLH1_ch02_196.mp4" type="video/mp4">
+                </video>
+                <div class="card-body  mmm-card">
+                  <p class="card-text">
+                    <strong>LA HipHop</strong>
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card">
+                <video id="text-to-motion_mmm" autoplay controls muted loop playsinline height="100%">
+                  <source src="./assets/ours/gWA_sFM_cAll_d27_mWA3_ch18_147.mp4" type="video/mp4">
+                </video>
+                <div class="card-body  mmm-card">
+                  <p class="card-text">
+                    <strong>Waack Dance</strong>
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>                   
+          </div>
+        </div>
+      </div> -->
+  </section>
+
+  
+
+          </main>
+          <script>
+            // Function to update the timeline for any video
+            function updateTimeline(videoId, lineId) {
+              const video = document.getElementById(videoId);
+              const movingLine = document.getElementById(lineId);
+              const timelineContainer = movingLine.closest('.timeline-container');
+              const segments = Array.from(timelineContainer.querySelectorAll('.segment'));
+              const totalFrames = 120; // Total frames for this video
+              video.addEventListener('timeupdate', () => {
+                const videoDuration = video.duration;
+                const currentTime = video.currentTime;
+                const playPercentage = (currentTime / videoDuration) * 100;
+                // Update the moving line's position
+                const timelineWidth = timelineContainer.offsetWidth;
+                const newLeftPosition = (playPercentage / 100) * timelineWidth;
+                movingLine.style.left = `${newLeftPosition}px`;
+                // Calculate the current frame based on video time
+                const currentFrame = (currentTime / videoDuration) * totalFrames;
+                // Loop through each segment and activate or apply motion-inactive if needed
+                segments.forEach(segment => {
+                  const startFrame = parseInt(segment.dataset.start, 10); // Start frame from data attribute
+                  const endFrame = parseInt(segment.dataset.end, 10); // End frame from data attribute
+                  if (currentFrame >= startFrame && currentFrame <= endFrame) {
+                    segment.classList.add('active');
+                    segment.classList.remove('motion-inactive');
+                  } else if (startFrame !== endFrame) {
+                    // Apply motion-inactive when segment has a range but is not currently active
+                    segment.classList.add('motion-inactive');
+                    segment.classList.remove('active');
+                  } else {
+                    // Remove all classes if no action is required
+                    segment.classList.remove('active', 'motion-inactive');
+                  }
+                });
+              });
+              video.addEventListener('loadedmetadata', () => {
+                movingLine.style.left = '0px';
+              });
+              video.addEventListener('play', () => {
+                movingLine.style.left = '0px';
+              });
+            }
+            // Initialize timelines for both videos
+            updateTimeline('video-1', 'moving-line-1');
+            updateTimeline('video-2', 'moving-line-2');
+          </script>
+          <footer class="text-body-secondary py-5">
+            <div class="container">
+              <p class="float-end mb-1">
+                <a href="#">Back to top</a>
+              </p>
+            </div>
+          </footer>
+        </body>
+      </html>
